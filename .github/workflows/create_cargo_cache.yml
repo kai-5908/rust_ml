@@ -1,5 +1,5 @@
 name: Create Cargo Cache
-runs:
+jobs:
   using: composite
 
   steps:
