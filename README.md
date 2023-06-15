@@ -2,7 +2,7 @@
 
 RUSTでMLOpsのようなことを体験するチュートリアル用
 
-## lint
+### lint
 
 ```
 cargo fmt
@@ -13,9 +13,9 @@ cargo clippy --all-targets --all-features
 ```
 で整える
 
-## test
+### test
 
-'''
+```
 cargo test
-'''
+```
 でチェックする
