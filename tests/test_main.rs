@@ -6,6 +6,6 @@ fn test_main() {
 
 #[test]
 #[should_panic]
-fn test_panic_works(){
+fn test_panic_works() {
     panic!();
 }

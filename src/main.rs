@@ -1,8 +1,8 @@
 use smartcore::dataset::iris;
 use smartcore::linalg::naive::dense_matrix::DenseMatrix;
 use smartcore::linear::logistic_regression::LogisticRegression;
-use smartcore::model_selection::train_test_split;
 use smartcore::metrics::accuracy;
+use smartcore::model_selection::train_test_split;
 
 fn main() {
     let iris_data = iris::load_dataset();
@@ -15,11 +15,7 @@ fn main() {
 
     let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2, true);
 
-    let model = LogisticRegression::fit(
-        &x_train,
-        &y_train,
-        Default::default(),
-    ).unwrap();
+    let model = LogisticRegression::fit(&x_train, &y_train, Default::default()).unwrap();
 
     let pred = model.predict(&x_test).unwrap();
     println!("{:#?}", iris_data.num_features);
