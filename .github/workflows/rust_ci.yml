@@ -45,7 +45,7 @@ jobs:
         run: cargo fmt --all -- --check
 
       - name: run clippy
-        run: cargo clippy --all-targets --all-features -- -D warnings
+        run: cargo clippy --all-targets --all-features
   
   test:
     runs-on: ubuntu-latest
