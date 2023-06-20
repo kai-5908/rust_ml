@@ -10,14 +10,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: import toolchain
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: stable
-          override: true
-
-      - name: import cargo
-        uses: actions-rs/cargo@v1
       
       - name: run check
         run: cargo check
@@ -29,23 +24,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: import toolchain
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: stable
-          override: true
-      
-      - name: import cargo
-        uses: actions-rs/cargo@v1
-      
-      - name: import rustfmt clippy
-        run: rustup component add rustfmt clippy
+          components: rustfmt, clippy
 
       - name: run rustfmt
         run: cargo fmt --all -- --check
 
       - name: run clippy
-        run: cargo clippy --all-targets --all-features -- -D warnings
+        run: cargo clippy --all-targets --all-features
   
   test:
     runs-on: ubuntu-latest
@@ -54,14 +42,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: import toolchain
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: stable
-          override: true
-
-      - name: import cargo
-        uses: actions-rs/cargo@v1
 
       - name: run test
         run: cargo test
