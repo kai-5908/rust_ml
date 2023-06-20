@@ -80,11 +80,11 @@ pub fn convert_features_to_matrix(size_data: &DataFrame) -> Result<DenseMatrix<f
 
 #[cfg(test)]
 mod tests {
-    use polars::prelude::*;
-    use polars::frame::DataFrame;
     use crate::preprocess_service::PreprocessService;
+    use polars::frame::DataFrame;
+    use polars::prelude::*;
     use std::path::Path;
-    
+
     #[test]
     fn test_new() {
         PreprocessService::new(Path::new("./samples/input/penguins_size.csv"));
@@ -101,7 +101,7 @@ mod tests {
         let s6 = Series::new("sex", &["MALE"]);
         let size_data = DataFrame::new(vec![s0, s1, s2, s3, s4, s5, s6]).unwrap();
 
-        let preprocess_service = PreprocessService{size_data};
+        let preprocess_service = PreprocessService { size_data };
         _ = preprocess_service.create_feature_and_target_tables()
     }
 }

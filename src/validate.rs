@@ -29,8 +29,8 @@ pub fn validate_sex_from_series(str_series: &Series) {
 #[cfg(test)]
 mod tests {
     use crate::validate::*;
-    use polars::series::Series;
     use polars::prelude::NamedFrom;
+    use polars::series::Series;
     #[test]
     fn test_validate_positive_float_from_series_normal() {
         let sample_series: Series = [11.1, 22.2, 33.3].iter().collect();
@@ -53,7 +53,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_validate_sex_from_series_anomaly() {
-        let sample_series: Series = Series::new("sample",["MAFE"]);
+        let sample_series: Series = Series::new("sample", ["MAFE"]);
         validate_sex_from_series(&sample_series)
     }
 }
