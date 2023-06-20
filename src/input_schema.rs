@@ -2,7 +2,7 @@ use ::polars::frame::DataFrame;
 use ::polars::prelude::Schema;
 use ::polars::prelude::*;
 
-use validate;
+use crate::validate;
 
 pub struct SizeDataSchema {
     pub schema: Schema,
@@ -21,7 +21,7 @@ impl SizeDataSchema {
         SizeDataSchema { schema }
     }
 
-    pub fn check(size_data: DataFrame) {
+    pub fn check(size_data: &DataFrame) {
         let col_names = vec![
             "species",
             "island",
