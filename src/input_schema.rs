@@ -51,7 +51,7 @@ impl SizeDataSchema {
             .map(|opt_name: Option<&str>| {
                 opt_name.map(|name: &str| match name {
                     "Adelie" => 1,
-                    "Chinstrap"|"Gentoo" => 0,
+                    "Chinstrap" | "Gentoo" => 0,
                     _ => panic!("Problem species str to num"),
                 })
             })

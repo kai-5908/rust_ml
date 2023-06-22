@@ -54,10 +54,15 @@ impl PreprocessService {
         (features, target)
     }
 
-    pub fn split_train_and_test(&self, features:DenseMatrix<f64>, target: Vec<f64>, ratio: f32) -> (DenseMatrix<f64>, DenseMatrix<f64>,Vec<f64>, Vec<f64>){
+    pub fn split_train_and_test(
+        &self,
+        features: DenseMatrix<f64>,
+        target: Vec<f64>,
+        ratio: f32,
+    ) -> (DenseMatrix<f64>, DenseMatrix<f64>, Vec<f64>, Vec<f64>) {
         let (x_train, x_test, y_train, y_test) = train_test_split(&features, &target, ratio, true);
         (x_train, x_test, y_train, y_test)
-    } 
+    }
 }
 
 pub fn convert_features_to_matrix(size_data: &DataFrame) -> Result<DenseMatrix<f64>, PolarsError> {
