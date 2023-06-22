@@ -8,10 +8,11 @@ use polars::prelude::*;
 
 use smartcore::linalg::naive::dense_matrix::DenseMatrix;
 use smartcore::linalg::BaseMatrix;
+use smartcore::model_selection::train_test_split;
 
 use crate::input_schema;
 
-struct PreprocessService {
+pub struct PreprocessService {
     size_data: DataFrame,
 }
 
@@ -27,18 +28,18 @@ impl PreprocessService {
             .expect("not validated")
             .drop_nulls::<String>(None)
             .unwrap();
-        println!("{}", &size_data);
         input_schema::SizeDataSchema::check(&size_data);
         PreprocessService { size_data }
     }
 
-    pub fn create_feature_and_target_tables(&self) -> (Result<DataFrame, PolarsError>, Vec<f64>) {
-        let features = self.size_data.select(vec![
+    pub fn create_feature_and_target_tables(&self) -> (DenseMatrix<f64>, Vec<f64>) {
+        let features_table = self.size_data.select(vec![
             "culmen_length_mm",
             "culmen_depth_mm",
             "flipper_length_mm",
             "body_mass_g",
         ]);
+        let features = convert_features_to_matrix(&features_table.unwrap()).unwrap();
         let species = self.size_data.select(vec!["species"]);
         let target_array = species
             .unwrap()
@@ -52,6 +53,11 @@ impl PreprocessService {
         }
         (features, target)
     }
+
+    pub fn split_train_and_test(&self, features:DenseMatrix<f64>, target: Vec<f64>, ratio: f32) -> (DenseMatrix<f64>, DenseMatrix<f64>,Vec<f64>, Vec<f64>){
+        let (x_train, x_test, y_train, y_test) = train_test_split(&features, &target, ratio, true);
+        (x_train, x_test, y_train, y_test)
+    } 
 }
 
 pub fn convert_features_to_matrix(size_data: &DataFrame) -> Result<DenseMatrix<f64>, PolarsError> {

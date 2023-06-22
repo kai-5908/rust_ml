@@ -18,7 +18,6 @@ pub fn validate_sex_from_series(str_series: &Series) {
         .expect("series was not an utf8 dtype")
         .into_iter();
     for val in series_iter {
-        println!("{:?}", val);
         match val {
             Some(val) if val == "MALE" || val == "FEMALE" => (),
             _ => panic!("sex str value is not valid"),
