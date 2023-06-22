@@ -1,23 +1,18 @@
-use smartcore::dataset::iris;
-use smartcore::linalg::naive::dense_matrix::DenseMatrix;
-use smartcore::linear::logistic_regression::LogisticRegression;
-use smartcore::metrics::accuracy;
-use smartcore::model_selection::train_test_split;
+use std::path::Path;
+
+use rust_ml::PreprocessService;
+use rust_ml::TrainService;
+
+const _DATA_PATH: &str = "./samples/input/penguins_size.csv";
 
 fn main() {
-    let iris_data = iris::load_dataset();
-    let x = DenseMatrix::from_array(
-        iris_data.num_samples,
-        iris_data.num_features,
-        &iris_data.data,
-    );
-    let y = iris_data.target;
+    let path = Path::new(_DATA_PATH);
+    let preprocess_service = PreprocessService::new(&path);
+    let (features, target) = preprocess_service.create_feature_and_target_tables();
+    let (x_train, x_test, y_train, y_test) =
+        preprocess_service.split_train_and_test(features, target, 0.3);
 
-    let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2, true);
-
-    let model = LogisticRegression::fit(&x_train, &y_train, Default::default()).unwrap();
-
-    let pred = model.predict(&x_test).unwrap();
-    println!("{:#?}", iris_data.num_features);
-    println!("{}", accuracy(&y_test, &pred));
+    let train_service = TrainService::new(x_train, y_train, x_test, y_test, 5, 1, 2, 100);
+    let random_forest_classifier = train_service.fit();
+    train_service.validate(random_forest_classifier);
 }
